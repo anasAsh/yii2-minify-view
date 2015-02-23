@@ -119,6 +119,10 @@ class View extends \yii\web\View
                 $css = '';
 
                 foreach ($css_files as $file) {
+                    $file_path = $file;
+                    if(!filter_var($file_path, FILTER_VALIDATE_URL)){
+                        $file_path = \Yii::getAlias($this->base_path) . $file;
+                    }
                     $content = file_get_contents(\Yii::getAlias($this->base_path) . $file);
 
                     preg_match_all('|url\(([^)]+)\)|is', $content, $m);
@@ -133,7 +137,7 @@ class View extends \yii\web\View
                             if ($this->isUrl($url)) {
                                 $result[$m[1][$k]] = '\'' . $url . '\'';
                             } else {
-                                $result[$m[1][$k]] = '\'' . $path . '/' . $url . '\'';
+                                $result[$m[1][$k]] =  "$path/$url";
                             }
                         }
                         $content = str_replace(array_keys($result), array_values($result), $content);
