@@ -172,7 +172,7 @@ class View extends \yii\web\View
     /**
      * @param string $css
      */
-    private function expandImports(&$css)
+    protected function expandImports(&$css)
     {
         if (true === $this->expand_imports) {
             preg_match_all('|\@import\s([^;]+);|is', str_replace('&amp;', '&', $css), $m);
@@ -196,7 +196,7 @@ class View extends \yii\web\View
      * @param callable $handler
      * @return string
      */
-    private function _collect(&$css, $pattern, $handler)
+    protected function _collect(&$css, $pattern, $handler)
     {
         $result = '';
 
@@ -215,7 +215,7 @@ class View extends \yii\web\View
      * @param string $css
      * @return string
      */
-    private function collectCharsets(&$css)
+    protected function collectCharsets(&$css)
     {
         return $this->_collect($css, '|\@charset[^;]+|is', function ($string) {
             return $string . ';';
@@ -226,7 +226,7 @@ class View extends \yii\web\View
      * @param string $css
      * @return string
      */
-    private function collectImports(&$css)
+    protected function collectImports(&$css)
     {
         return $this->_collect($css, '|\@import[^;]+|is', function ($string) {
             return $string . ';';
@@ -237,7 +237,7 @@ class View extends \yii\web\View
      * @param string $css
      * @return string
      */
-    private function collectFonts(&$css)
+    protected function collectFonts(&$css)
     {
         return $this->_collect($css, '|\@font-face\{[^}]+\}|is', function ($string) {
             return $string;
@@ -298,7 +298,7 @@ class View extends \yii\web\View
      * @param string $url
      * @return null|string
      */
-    private function getImportContent($url)
+    protected function getImportContent($url)
     {
         $result = null;
 
@@ -321,7 +321,7 @@ class View extends \yii\web\View
      * @param array $files
      * @return string
      */
-    private function _getSummaryFilesHash($files)
+    protected function _getSummaryFilesHash($files)
     {
         $result = '';
         foreach ($files as $file => $html) {
@@ -337,7 +337,7 @@ class View extends \yii\web\View
      * @param string $url
      * @return bool
      */
-    private function isUrl($url)
+    protected function isUrl($url)
     {
         return (bool)preg_match('#^(' . implode('|', $this->schemas) . ')#is', $url);
     }
